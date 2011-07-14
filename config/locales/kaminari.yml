@@ -8,3 +8,4 @@ en:
       previous: "&lsaquo; Prev"
       next: "Next &rsaquo;"
       truncate: "..."
+      status: "Showing %{start_offset} to %{end_offset} of %{total_entries} %{type}."

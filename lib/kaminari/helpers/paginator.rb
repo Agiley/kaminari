@@ -7,6 +7,8 @@ module Kaminari
     class Paginator < Tag
       # so that this instance can actually "render"
       include ::ActionView::Context
+      include ::ActionView::Helpers::NumberHelper
+      include ::ActionView::Helpers::RawOutputHelper
 
       def initialize(template, options) #:nodoc:
         @window_options = {}.tap do |h|
@@ -37,6 +39,18 @@ module Kaminari
         1.upto(@options[:num_pages]) do |i|
           yield PageProxy.new(@window_options.merge(@options), i, @last)
         end
+      end
+      
+      def pagination_status(type = "entries")
+        start_offset = (((@options[:current_page] - 1) * @options[:per_page]) + 1)
+        end_offset = (@options[:current_page].number * @options[:per_page])
+        
+        raw(I18n.translate('views.pagination.status', 
+                            :start_offset => number_with_delimiter(start_offset), 
+                            :end_offset => number_with_delimiter(end_offset), 
+                            :total_entries => number_with_delimiter(@options[:total_entries]),
+                            :type => type
+                          ))
       end
 
       def page_tag(page)
