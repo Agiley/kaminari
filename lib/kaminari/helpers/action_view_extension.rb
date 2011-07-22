@@ -20,7 +20,7 @@ module Kaminari
         options = options.reverse_merge(:current_page   =>  scope.current_page, 
                                         :num_pages      =>  scope.num_pages, 
                                         :per_page       =>  scope.limit_value, 
-                                        :total_entries  =>  scope.total_count,
+                                        :total_entries  =>  scope.respond_to?(:total_count) ? scope.total_count : scope.total_entries,
                                         :param_name     =>  Kaminari.config.param_name,
                                         :remote         =>  false)
         
