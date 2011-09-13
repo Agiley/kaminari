@@ -22,7 +22,8 @@ module Kaminari
                                         :per_page       =>  scope.limit_value, 
                                         :total_entries  =>  scope.respond_to?(:total_count) ? scope.total_count : scope.total_entries,
                                         :param_name     =>  Kaminari.config.param_name,
-                                        :remote         =>  false)
+                                        :remote         =>  false,
+                                        :entity_type    =>  'entities')
         
         paginator = Kaminari::Helpers::Paginator.new self, options
         paginator.to_s

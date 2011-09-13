@@ -41,7 +41,7 @@ module Kaminari
         end
       end
       
-      def pagination_status(type = "entries")
+      def pagination_status
         start_offset = (((@options[:current_page] - 1) * @options[:per_page]) + 1)
         end_offset = (@options[:current_page].number * @options[:per_page])
         
@@ -49,7 +49,7 @@ module Kaminari
                             :start_offset => number_with_delimiter(start_offset), 
                             :end_offset => number_with_delimiter(end_offset), 
                             :total_entries => number_with_delimiter(@options[:total_entries]),
-                            :type => type
+                            :type => @options[:entity_type]
                           ))
       end
 
