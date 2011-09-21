@@ -5,9 +5,24 @@ module Kaminari
 
     attr_internal_accessor :limit_value, :offset_value
 
-    def initialize(original_array, limit_val = default_per_page, offset_val = 0) #:nodoc:
-      @_original_array, @_limit_value, @_offset_value = original_array, limit_val, offset_val
-      super(original_array[offset_val, limit_val] || [])
+    # ==== Options
+    # * <tt>:limit</tt> - limit
+    # * <tt>:offset</tt> - offset
+    # * <tt>:total_count</tt> - total_count
+    def initialize(original_array = [], options = {})
+      @_original_array, @_limit_value, @_offset_value, @_total_count = original_array, (options[:limit] || default_per_page).to_i, options[:offset].to_i, options[:total_count]
+
+      if options[:limit] && options[:offset]
+        class << self
+          include Kaminari::PageScopeMethods
+        end
+      end
+
+      if options[:total_count]
+        super original_array
+      else
+        super(original_array[@_offset_value, @_limit_value] || [])
+      end
     end
 
     # items at the specified "page"
@@ -17,21 +32,17 @@ module Kaminari
 
     # returns another chunk of the original array
     def limit(num)
-      self.class.new @_original_array, num, offset_value
+      self.class.new @_original_array, :limit => num, :offset => @_offset_value, :total_count => @_total_count
     end
 
     # total item numbers of the original array
     def total_count
-      @_original_array.count
+      @_total_count || @_original_array.count
     end
 
     # returns another chunk of the original array
     def offset(num)
-      arr = self.class.new @_original_array, limit_value, num
-      class << arr
-        include Kaminari::PageScopeMethods
-      end
-      arr
+      self.class.new @_original_array, :limit => @_limit_value, :offset => num, :total_count => @_total_count
     end
   end
 

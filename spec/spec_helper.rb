@@ -2,6 +2,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rails'
 require 'mongoid'
+require 'dm-core'
 require 'kaminari'
 require 'database_cleaner'
 # Ensure we use 'syck' instead of 'psych' in 1.9.2
@@ -12,6 +13,7 @@ require 'database_cleaner'
 if RUBY_VERSION >= '1.9.2'
   YAML::ENGINE.yamler = 'syck'
 end
+require File.join(File.dirname(__FILE__), 'fake_gem')
 require File.join(File.dirname(__FILE__), 'fake_app')
 
 require 'rspec/rails'

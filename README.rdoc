@@ -37,6 +37,8 @@ The pagination helper outputs the HTML5 <nav> tag by default. Plus, the helper s
 
 * MongoMapper 0.9
 
+* DataMapper 1.1.0
+
 == Install
 
 Put this line in your Gemfile:
@@ -60,6 +62,12 @@ Then bundle:
   To show a lot more users per each page (change the +per_page+ value)
     User.page(7).per(50)
   Note that the +per+ scope is not directly defined on the models but is just a method defined on the page scope. This is absolutely reasonable because you will never actually use +per_page+ without specifying the +page+ number.
+
+* the +shift+ scope
+
+  Occasionally you need to shift a number of records that is not a multiple of the page size.
+    User.page(7).per(50).shift(3)
+  Note that the +shift+ scope is not directly defined on the models but is just a method defined on the page scope. This is absolutely reasonable because you can use +offset+ otherwise.
 
 === General configuration options
 
