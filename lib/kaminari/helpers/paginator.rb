@@ -8,7 +8,7 @@ module Kaminari
       # so that this instance can actually "render"
       include ::ActionView::Context
       include ::ActionView::Helpers::NumberHelper
-      include ::ActionView::Helpers::RawOutputHelper
+      include ::ActionView::Helpers::OutputSafetyHelper
 
       def initialize(template, options) #:nodoc:
         @window_options = {}.tap do |h|
