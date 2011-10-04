@@ -28,7 +28,7 @@ module Kaminari
 
       # render given block as a view template
       def render(&block)
-        instance_eval &block if @options[:num_pages] > 1
+        instance_eval &block #if @options[:num_pages] > 1
         @output_buffer
       end
 
@@ -44,6 +44,7 @@ module Kaminari
       def pagination_status
         start_offset = (((@options[:current_page] - 1) * @options[:per_page]) + 1)
         end_offset = (@options[:current_page].number * @options[:per_page])
+        end_offset = (end_offset < @options[:total_entries]) ? end_offset : @options[:total_entries]
         
         raw(I18n.translate('views.pagination.status', 
                             :start_offset => number_with_delimiter(start_offset), 
